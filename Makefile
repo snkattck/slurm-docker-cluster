@@ -1,17 +1,26 @@
 # default build target
 all::
 
-all:: build
+all:: pre build
 .PHONY: all push test
 
 MAINTAINER:="Evan Sarmiento <esarmien@snkattck.co>"
 MAINTAINER_URL:="https://github.com/snkattck/slurm-docker-cluster"
 IMAGE_NAME:=snkattck/slurm-docker-cluster
-SLURM_TAG:=slurm-20-02-1-1
+export SLURM_TAG:=slurm-20-02-1-1
 GIT_SHA:=$(shell git rev-parse HEAD)
 OS:=$(shell uname | tr '[:upper:]' '[:lower:]')
 GIT_BRANCH:=$(shell git rev-parse --abbrev-ref HEAD)
 CONTAINER_TEST_VERSION:=1.8.0
+export PATH:=$(PWD)/test/test_helper/bats-core/bin:$(PATH)
+
+# Check Make version (we need at least GNU Make 3.82). Fortunately,
+# 'undefine' directive has been introduced exactly in GNU Make 3.82.
+ifeq ($(filter undefine,$(value .FEATURES)),)
+$(error Unsupported Make version. \
+    The build system does not work properly with GNU Make $(MAKE_VERSION), \
+    please use GNU Make 3.82 or above.)
+endif
 
 ifeq ($(GIT_BRANCH), master)
 	IMAGE_TAG:=$(IMAGE_NAME):$(SLURM_TAG)-$(GIT_SHA)
@@ -38,3 +47,11 @@ build:
 		--tag $(IMAGE_TAG) \
 		--tag $(IMAGE_NAME):$(PREFIX) \
 		--file Dockerfile .
+
+push:
+	docker push $(IMAGE_NAME):$(PREFIX)
+	docker tag $(IMAGE_NAME):$(PREFIX) $(IMAGE_TAG)
+	docker push $(IMAGE_TAG)
+
+test:
+	bats ./test

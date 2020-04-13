@@ -4,8 +4,22 @@ This is a multi-container Slurm cluster using docker-compose.  The compose file
 creates named volumes for persistent storage of MySQL data files as well as
 Slurm state and log directories.
 
-This is a fork of https://github.com/giovtorres/slurm-docker-cluster, including the latest
-slurm as default.
+This is a fork of <https://github.com/giovtorres/slurm-docker-cluster,> including the latest
+slurm as default, basic BATS <https://github.com/bats-core/bats-core,> testing which
+determines whether the correct version of Slurm is installed, two nodes are available,
+and a job can be submitted.
+
+## Testing
+
+Typically,
+
+```make test```
+
+On OS X, you must install a newer version of GNU Make by running:
+
+```brew install remake```
+
+Then run ```remake test```
 
 ## Containers and Volumes
 
@@ -30,27 +44,26 @@ The compose file will create the following named volumes:
 Build the image locally:
 
 ```console
-docker build -t slurm-docker-cluster:19.05.1 .
+make build
 ```
 
 Build a different version of Slurm using Docker build args and the Slurm Git
-tag:
+tag. Slurm tags available on https://github.com/SchedMD/slurm/releases.
 
 ```console
-docker build --build-arg SLURM_TAG="slurm-19-05-2-1" -t slurm-docker-cluster:19.05.2
+make build -s SLURM_TAG="slurm-19-05-2-1"
 ```
 
 > Note: You will need to update the container image version in
 > [docker-compose.yml](docker-compose.yml).
 
-
-
 ## Starting the Cluster
 
-Run `docker-compose` to instantiate the cluster:
+Run `docker-compose` to instantiate the cluster. ```SLURM_TAG``` is required.
+Latest supported SLURM_TAG is ```slurm-20-02-1-1```.
 
 ```console
-docker-compose up -d
+env SLURM_TAG=slurm-20-02-1-1 docker-compose up -d
 ```
 
 ## Register the Cluster with SlurmDBD
@@ -111,7 +124,12 @@ docker-compose start
 To remove all containers and volumes, run:
 
 ```console
-docker-compose stop
-docker-compose rm -f
-docker volume rm slurm-docker-cluster_etc_munge slurm-docker-cluster_etc_slurm slurm-docker-cluster_slurm_jobdir slurm-docker-cluster_var_lib_mysql slurm-docker-cluster_var_log_slurm
+docker-compose down -v
+```
+
+If you want to keep your configuration and metadata as docker volumes,
+just omit ```-v``` and run
+
+```console
+docker-compose down
 ```
