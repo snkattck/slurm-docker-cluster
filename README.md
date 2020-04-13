@@ -54,9 +54,6 @@ tag. Slurm tags available on https://github.com/SchedMD/slurm/releases.
 make build -s SLURM_TAG="slurm-19-05-2-1"
 ```
 
-> Note: You will need to update the container image version in
-> [docker-compose.yml](docker-compose.yml).
-
 ## Starting the Cluster
 
 Run `docker-compose` to instantiate the cluster. ```SLURM_TAG``` is required.
