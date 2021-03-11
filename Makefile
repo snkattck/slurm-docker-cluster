@@ -54,4 +54,6 @@ push:
 	docker push $(IMAGE_TAG)
 
 test:
+	docker-compose up -d
 	bats ./test
+	docker-compose down -v

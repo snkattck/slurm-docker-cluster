@@ -2,7 +2,7 @@ version: "3"
 
 services:
   mysql:
-    image: mysql:5.7
+    image: jbergstroem/mariadb-alpine:10.4.17
     hostname: mysql
     container_name: mysql
     environment:
@@ -39,8 +39,6 @@ services:
       - var_log_slurm:/var/log/slurm
     expose:
       - "6817"
-    depends_on:
-      - "slurmdbd"
 
   c1:
     image: snkattck/slurm-docker-cluster:${SLURM_TAG}

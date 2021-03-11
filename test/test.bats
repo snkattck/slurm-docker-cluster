@@ -5,11 +5,6 @@ load './test_helper/bats-assert/load'
 DIR="$(dirname $BATS_TEST_FILENAME)"
 SLURM_VERSION="$(echo -n ${SLURM_TAG}|awk -F- '{print $2"."$3"."$4}')"
 
-setup() {
-    docker-compose -f ${DIR}/../docker-compose.yml up -d
-    sleep 60s
-}
-
 @test 'check slurm version matches SLURM_TAG' {
     run docker exec -i -t slurmctld slurmctld -V
     assert_output --regexp "^slurm ${SLURM_VERSION}.$"
@@ -22,12 +17,8 @@ setup() {
 }
 
 @test 'job can be submitted' {
-    run docker exec -i -t slurmctld bash -c "cd /data; sbatch --wrap='echo L'"
+    run docker exec -i -t slurmctld bash -c "cd /data; sbatch --wrap='echo L' -o out.log"
     sleep 15s
-    run docker exec -i -t slurmctld cat /data/slurm-2.out
+    run docker exec -i -t slurmctld cat /data/out.log
     assert_output --regexp "^L.$"
-}
-
-teardown() {
-    docker-compose -f ${DIR}/../docker-compose.yml down -v
 }
