@@ -7,7 +7,6 @@ all:: pre build
 MAINTAINER:="Evan Sarmiento <esarmien@snkattck.co>"
 MAINTAINER_URL:="https://github.com/snkattck/slurm-docker-cluster"
 IMAGE_NAME:=snkattck/slurm-docker-cluster
-export SLURM_TAG:=slurm-20-02-1-1
 GIT_SHA:=$(shell git rev-parse HEAD)
 OS:=$(shell uname | tr '[:upper:]' '[:lower:]')
 GIT_BRANCH:=$(shell git rev-parse --abbrev-ref HEAD)
