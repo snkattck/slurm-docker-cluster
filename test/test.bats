@@ -13,7 +13,6 @@ SLURM_VERSION="$(echo -n ${SLURM_TAG}|awk -F- '{print $2"."$3"."$4}')"
 @test 'two nodes are available' {
     run docker exec -i -t slurmctld sinfo -o '%D' --noheader
     assert_output --regexp "^2.$"
-    
 }
 
 @test 'job can be submitted' {
