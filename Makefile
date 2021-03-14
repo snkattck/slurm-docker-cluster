@@ -48,7 +48,7 @@ build:
 		--file Dockerfile .
 
 push:
-	docker login -u $(DOCKERHUB_USERNAME) -p "$(DOCKERHUB_PASSWORD)"
+	docker login -u $(DOCKERHUB_USERNAME) -p "$(DOCKERHUB_TOKEN)"
 	docker push $(IMAGE_NAME):$(PREFIX)
 	docker tag $(IMAGE_NAME):$(PREFIX) $(IMAGE_TAG)
 	docker push $(IMAGE_TAG)
