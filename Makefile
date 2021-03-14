@@ -2,7 +2,7 @@
 all::
 
 all:: pre build
-.PHONY: all push test
+.PHONY: all test
 
 MAINTAINER:="Evan Sarmiento <esarmien@snkattck.co>"
 MAINTAINER_URL:="https://github.com/snkattck/slurm-docker-cluster"
@@ -55,5 +55,5 @@ push:
 
 test:
 	docker-compose up -d
-	bats ./test
+	bats -F junit -o ./test-results ./test
 	docker-compose down -v
