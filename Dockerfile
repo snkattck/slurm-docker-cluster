@@ -45,6 +45,7 @@ RUN set -ex \
        psmisc \
        bash-completion \
        vim-enhanced \
+       singularity \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && ln -s /usr/bin/python3.4 /usr/bin/python3 \
