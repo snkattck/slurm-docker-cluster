@@ -63,22 +63,6 @@ Latest supported SLURM_TAG is ```slurm-20-02-1-1```.
 env SLURM_TAG=slurm-20-02-1-1 docker-compose up -d
 ```
 
-## Register the Cluster with SlurmDBD
-
-To register the cluster to the slurmdbd daemon, run the `register_cluster.sh`
-script:
-
-```console
-./register_cluster.sh
-```
-
-> Note: You may have to wait a few seconds for the cluster daemons to become
-> ready before registering the cluster.  Otherwise, you may get an error such
-> as **sacctmgr: error: Problem talking to the database: Connection refused**.
->
-> You can check the status of the cluster by viewing the logs: `docker-compose
-> logs -f`
-
 ## Accessing the Cluster
 
 Use `docker exec` to run a bash shell on the controller container:
