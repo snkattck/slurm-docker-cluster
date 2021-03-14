@@ -4,7 +4,7 @@ jobs:
   build-and-test-slurm-containers:
     strategy:
       matrix:
-        slurm-tag: ["slurm-20-02-1-1"]
+        slurm-tag: ["slurm-20-02-1-1", "slurm-20-11-4-1"]
     runs-on: ubuntu-latest
     env:
       SLURM_TAG: ${{ matrix.slurm-tag }}
