@@ -55,5 +55,5 @@ push:
 test:
 	docker-compose up -d
 	mkdir ./test-results
-	bats -F junit -o ./test-results ./test
+	bats --formatter junit ./test/test.bats -o ./test-results 
 	docker-compose down -v
