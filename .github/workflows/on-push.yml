@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SLURM_TAG: ${{ matrix.slurm-tag }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
