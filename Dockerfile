@@ -19,7 +19,6 @@ LABEL "slurm.tag"="$SLURM_TAG" \
       "org.label-schema.docker.cmd"="docker-compose up -d"
 
 ARG GOSU_VERSION=1.11
-
 RUN set -ex \
     && yum makecache fast \
     && yum -y update \
@@ -98,8 +97,8 @@ RUN set -x \
     && /sbin/create-munge-key
 
 COPY slurm.conf /etc/slurm/slurm.conf
-COPY slurmdbd.conf /etc/slurm/slurmdbd.conf
-
+COPY --chown=slurm:slurm slurmdbd.conf /etc/slurm/slurmdbd.conf
+RUN chmod 0600 /etc/slurm/slurmdbd.conf
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
